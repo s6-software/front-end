@@ -47,6 +47,8 @@ export const authOptions = {
           console.log(user);
           return user;
         }
+        console.log("AAAAAAAAAAAA");
+
         // Return null if user data could not be retrieved
         return null;
       },

@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import React, { useState } from "react";
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
