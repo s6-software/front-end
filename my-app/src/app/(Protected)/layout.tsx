@@ -9,10 +9,7 @@ async function useAuthentication() {
 }
 
 async function Layout({ children }: any) {
-  // const isAuthenticated = useAuthentication();
-
   const session = await getServerSession();
-  console.log(session);
   if (!session) {
     redirect("/Auth/login");
   }
