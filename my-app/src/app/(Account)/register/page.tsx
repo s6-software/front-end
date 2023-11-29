@@ -76,11 +76,13 @@ const page = () => {
 
   const passwordsMatch = password === confirmPassword;
 
+  const passwordsMatchMessage = passwordsMatch ? true : false;
+
   console.log(submitAvailable);
   return (
     <div
       id="wrapper"
-      className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8"
+      className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 "
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -193,7 +195,7 @@ const page = () => {
                   required
                 />
               </div>
-              {passwordsMatch ? null : (
+              {confirmPassword.length > 0 && !passwordsMatch && (
                 <p className="text-sm text-red-500">Passwords do not match.</p>
               )}
             </div>
