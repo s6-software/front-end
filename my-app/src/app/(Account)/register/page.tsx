@@ -57,7 +57,7 @@ const page = () => {
     signIn("credentials", {
       username: username,
       password: password,
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: "/home",
     });
   };
 
@@ -73,6 +73,7 @@ const page = () => {
 
   const submitAvailable =
     password === confirmPassword && passwordStrength === 100;
+
   const passwordsMatch = password === confirmPassword;
 
   console.log(submitAvailable);
@@ -91,7 +92,7 @@ const page = () => {
             href="login"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
-            I already have an account
+            Login to your account
           </Link>
         </p>
       </div>
@@ -155,21 +156,25 @@ const page = () => {
                   required
                 />
               </div>
-              <PasswordProgressBar percentage={passwordStrength} />
-              <div>
-                <PasswordAssist
-                  text="Password must be at least 8 characters"
-                  number={passwordScores[0]}
-                />
-                <PasswordAssist
-                  text="Must contain 1 upper and lower case character"
-                  number={passwordScores[1]}
-                />
-                <PasswordAssist
-                  text="Password must contain at least 1 number and symbols"
-                  number={passwordScores[2]}
-                />
-              </div>
+
+              {password.length > 0 && (
+                <div>
+                  <PasswordProgressBar percentage={passwordStrength} />
+
+                  <PasswordAssist
+                    text="Password must be at least 8 characters"
+                    number={passwordScores[0]}
+                  />
+                  <PasswordAssist
+                    text="Must contain 1 upper and lower case character"
+                    number={passwordScores[1]}
+                  />
+                  <PasswordAssist
+                    text="Password must contain at least 1 number and symbols"
+                    number={passwordScores[2]}
+                  />
+                </div>
+              )}
             </div>
 
             <div id="password-input-confirmation">
