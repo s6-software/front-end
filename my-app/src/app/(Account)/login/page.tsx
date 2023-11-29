@@ -26,7 +26,7 @@ const page = () => {
         <p className="mt-2 text-center text-sm text-gray-600 max-w">
           Or{" "}
           <Link
-            href="#"
+            href="/register"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             create an account
