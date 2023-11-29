@@ -9,19 +9,11 @@ async function useAuthentication() {
 }
 
 async function Layout({ children }: any) {
-  // const isAuthenticated = useAuthentication();
-
   const session = await getServerSession();
-  console.log(session);
-  if (!session) {
-    redirect("/Auth/login");
+  if (session) {
+    redirect("/home");
   }
-  return (
-    <div className="flex">
-      <Sidebar />
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }
 
 export default Layout;

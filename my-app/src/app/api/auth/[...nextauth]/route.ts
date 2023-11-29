@@ -46,13 +46,13 @@ export const authOptions = {
           name: "J Smith",
           email: "jsmith@example.com",
           askdasd: "asdasd",
+          asdasd: "asdasd",
         };
         // If no error and we have user data, return it
         if (user) {
           console.log(user);
           return user;
         }
-        console.log("AAAAAAAAAAAA");
 
         // Return null if user data could not be retrieved
         return null;
