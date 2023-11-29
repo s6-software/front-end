@@ -90,7 +90,7 @@ const page = () => {
         <p className="mt-2 text-center text-sm text-gray-600 max-w">
           Or{" "}
           <Link
-            href="login"
+            href="/Auth/login"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Login to your account
