@@ -78,7 +78,6 @@ const page = () => {
 
   const passwordsMatchMessage = passwordsMatch ? true : false;
 
-  console.log(submitAvailable);
   return (
     <div
       id="wrapper"
@@ -265,7 +264,6 @@ const PasswordProgressBar = ({ percentage }: PasswordProgressBarProps) => {
     percentage = percentage;
     let data_set = [1 / 6, 2 / 6, 3 / 6, 4 / 6, 5 / 6, 6 / 6];
 
-    console.log(percentage);
     switch (true) {
       case percentage < 50:
         return "bg-red-500";
