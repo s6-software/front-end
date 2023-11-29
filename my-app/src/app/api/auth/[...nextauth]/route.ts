@@ -31,17 +31,16 @@ export const authOptions = {
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
 
-        // const res = await fetch(
-        //   "https://jsonplaceholder.typicode.com/todos/1",
-        //   {
-        //     method: "GET",
-        //     // body: JSON.stringify(credentials),
-        //     headers: { "Content-Type": "application/json" },
-        //   }
-        // );
+        const res = await fetch(
+          "https://jsonplaceholder.typicode.com/todos/1",
+          {
+            method: "GET",
+            // body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
-        // let user = await res.json();
-        let user = {};
+        let user = await res.json();
         user = {
           id: 1,
           name: "J Smith",
