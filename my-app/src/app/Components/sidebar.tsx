@@ -98,23 +98,43 @@ const LogoutButton = () => {
 };
 
 const NoteExplorer = () => {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col">
       <p className="ml-2 text-base">Workspace Title</p>
 
-      <div
-        onClick={(e) => setOpen(!open)}
-        className="flex ml-2 text-base rounded-md col-span-2 cursor-pointer hover:bg-gray-400 transition-all ease-in-out delay-50"
-      >
-        {open ? (
-          <FolderOpenIcon className="ml-2 h-6 w-6" />
-        ) : (
-          <FolderIcon className="ml-2 h-6 w-6" />
-        )}
-        <p className="ml-2">folder title</p>
+      <FolderItem />
+      <FolderItem />
+    </div>
+  );
+};
+
+const FolderItem = () => {
+  const [open, setOpen] = useState(false);
+  const list = ["note 1", "note 2", "note 3", "note 4", "note 5"];
+  return (
+    <div>
+      <div onClick={(e) => setOpen(!open)} className="flex  w-full">
+        <div className="flex w-full ml-2 mt-2 text-base rounded-md col-span-2 cursor-pointer hover:bg-gray-400 transition-all ease-in-out delay-50">
+          {open ? (
+            <FolderOpenIcon className="ml-2 h-6 w-6" />
+          ) : (
+            <FolderIcon className="ml-2 h-6 w-6" />
+          )}
+          <p className={`ml-2 text-lg ${open ? "font-bold" : "font-normal"}`}>
+            folder title
+          </p>
+        </div>
       </div>
+
+      {open && list.map((item) => <NoteItem key={item} />)}
+    </div>
+  );
+};
+
+const NoteItem = () => {
+  return (
+    <div className="flex w-full rounded-md hover:bg-gray-400 cursor-pointer transition-all ease-in-out">
+      <p className="ml-8 text-normal ">Note title</p>
     </div>
   );
 };
