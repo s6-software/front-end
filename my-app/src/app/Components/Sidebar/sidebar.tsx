@@ -11,7 +11,7 @@ import NoteExplorer from "./folderexplorer";
 const sidebar = () => {
   const [open, setOpen] = useState(true);
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <div
         className={`${
           open ? "w-80" : "w-40"
