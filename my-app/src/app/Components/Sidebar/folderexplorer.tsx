@@ -48,9 +48,7 @@ const FolderItem = ({
           ) : (
             <FolderIcon className="ml-2 h-6 w-6" />
           )}
-          <p className={`ml-2 text-lg ${open ? "font-bold" : "font-normal"}`}>
-            {folderTitle}
-          </p>
+          <p className={`ml-2 text-lg "font-normal"`}>{folderTitle}</p>
         </div>
       </div>
       <div className="border-l-2 rounded-sm border-gray-300 ml-6">
