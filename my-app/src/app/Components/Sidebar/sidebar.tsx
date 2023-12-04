@@ -11,22 +11,27 @@ const sidebar = () => {
       <div
         className={`${
           open ? "w-80" : "w-40"
-        } h-screen flex flex-col bg-gray-500 relative transition-all duration-300 ease-in-out`}
+        } h-full flex flex-col bg-gray-50 relative transition-all duration-300 ease-in-out border-r border-gray-400`}
       >
         <ProfileItem text={"display name"} setOpen={setOpen} open={open} />
-        <div className="border-t border-gray-700 pt-2 m-2 "></div>
+        <div className="border-t border-gray-400 pt-2 m-2 "></div>
         <HomeButton />
         <SearchItem />
-        <div className="border-t border-gray-700 pt-2 m-2 "></div>
+        <div className="border-t border-gray-400 pt-2 m-2 "></div>
         <NoteExplorer WorkspaceTitle="Research workspace" />
-        <div className="border-t border-gray-700 pt-2 m-2 "></div>
+        <div className="border-t border-gray-400 pt-2 m-2 "></div>
         <LogoutButton />
       </div>
     </div>
   );
 };
 
-const ProfileItem = ({ text, setOpen, open }) => {
+interface ProfileItemProps {
+  text: string;
+  setOpen: (value: boolean) => void;
+  open: boolean;
+}
+const ProfileItem = ({ text, setOpen, open }: ProfileItemProps) => {
   return (
     <div className="flex grid-cols-1 justify-center">
       <div className="flex grid-cols-3 justify-between w-full h-24 items-center ml-2 ">
@@ -50,7 +55,7 @@ const ProfileItem = ({ text, setOpen, open }) => {
 
 const SearchItem = ({}) => {
   return (
-    <div className="flex pt-2 pb-2 ml-2 mr-2 mt-1 rounded-md justify-start col-span-2 hover:bg-gray-400 transition-all ease-in-out delay-50 cursor-pointer">
+    <div className="flex pt-2 pb-2 ml-2 mr-2 mt-1 rounded-md justify-start col-span-2 hover:bg-gray-300 transition-all ease-in-out delay-50 cursor-pointer">
       <MagnifyingGlassIcon className="ml-2 h-6 w-6" />
       <p className="ml-2 text-md">search</p>
     </div>
@@ -59,7 +64,7 @@ const SearchItem = ({}) => {
 
 const HomeButton = () => {
   return (
-    <div className="flex pt-2 pb-2 ml-2 mr-2 rounded-md justify-start col-span-2 hover:bg-gray-400 transition-all ease-in-out delay-50 cursor-pointer">
+    <div className="flex pt-2 pb-2 ml-2 mr-2 rounded-md justify-start col-span-2 hover:bg-gray-300 transition-all ease-in-out delay-50 cursor-pointer">
       <HomeIcon className="ml-2 h-6 w-6" />
       <p className="ml-2 text-md">dashboard</p>
     </div>
@@ -79,7 +84,7 @@ const LogoutButton = () => {
   return (
     <div
       onClick={logout}
-      className="flex mt-auto mb-2 pt-2 pb-2 ml-2 mr-2 rounded-md justify-start col-span-2 hover:bg-red-400 transition-all ease-in-out delay-150 cursor-pointer"
+      className="flex mt-auto mb-2 pt-2 pb-2 ml-2 mr-2 rounded-md justify-start col-span-2 hover:bg-red-300 transition-all ease-in-out delay-150 cursor-pointer"
     >
       <ArrowRightOnRectangleIcon className="ml-2 h-6 w-6" />
       <p className="ml-2 text-md">logout</p>
