@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
 const page = () => {
@@ -143,13 +143,13 @@ const WorkspaceCardItem = ({
         {shared && (
           <UserGroupIcon
             title="This workspace is shared"
-            className="w-8 h-8 fill-blue-500 stroke-blue-800"
+            className="w-8 h-8 fill-blue-500 stroke-black"
           />
         )}
         {owner && (
           <SparklesIcon
             title="you are the owner of this workspace"
-            className="w-8 h-8 fill-yellow-500 stroke-yellow-400"
+            className="w-8 h-8 fill-yellow-500 stroke-black"
           />
         )}
       </div>
