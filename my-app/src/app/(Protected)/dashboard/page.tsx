@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
 const page = () => {
@@ -12,11 +12,12 @@ const page = () => {
               All workspaces
             </h1>
           </div>
+          <div className="flex flex-col justify-between h-full">
+            <WorkspaceExplorer />
 
-          <WorkspaceExplorer />
-
-          <div className="flex w-full justify-center">
-            <CreateWorkspaceButton />
+            <div className="flex w-full self-end justify-center">
+              <CreateWorkspaceButton />
+            </div>
           </div>
         </div>
       </div>
@@ -49,6 +50,7 @@ const WorkspaceExplorer = () => {
       description: "This is the max amount of chars",
       id: "1",
       shared: true,
+      owner: true,
     },
     {
       name: "Research notes",
@@ -101,6 +103,7 @@ const WorkspaceExplorer = () => {
           description={obj.description}
           id={obj.id}
           shared={obj.shared}
+          owner={obj.owner}
         />
       ))}
     </div>
@@ -112,19 +115,21 @@ interface WorkspaceCardItemProps {
   description: string;
   id: string;
   shared?: boolean;
+  owner?: boolean;
 }
 const WorkspaceCardItem = ({
   name,
   description,
   id,
   shared,
+  owner,
 }: WorkspaceCardItemProps) => {
   const cardstyle = { flex: "1 0 30%" };
 
   return (
     <div
       style={cardstyle}
-      className="flex flex-col mb-2 bg-slate-100 border border-black p-6 rounded-lg shadow hover:bg-gray-100 cursor-pointer transition-all duration-300"
+      className="flex flex-col h-72 mb-2 bg-slate-100 border border-black p-6 rounded-lg shadow hover:bg-gray-50 cursor-pointer transition-all duration-300"
     >
       <div className="flex w-full flex-col">
         <h1 className="flex w-full mb-2 text-2xl font-bold tracking-tight text-black">
@@ -133,11 +138,21 @@ const WorkspaceCardItem = ({
 
         <p className="font-normal text-gray700">{description}</p>
       </div>
-      {shared && (
-        <div className="flex w-full justify-end items-end mt-auto">
-          <UserGroupIcon className="w-6 h-6" />
-        </div>
-      )}
+
+      <div className="flex w-full justify-between items-end mt-auto">
+        {shared && (
+          <UserGroupIcon
+            title="This workspace is shared"
+            className="w-8 h-8 fill-blue-500 stroke-blue-800"
+          />
+        )}
+        {owner && (
+          <SparklesIcon
+            title="you are the owner of this workspace"
+            className="w-8 h-8 fill-yellow-500 stroke-yellow-400"
+          />
+        )}
+      </div>
     </div>
   );
 };
