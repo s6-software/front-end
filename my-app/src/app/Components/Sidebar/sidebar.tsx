@@ -4,13 +4,18 @@ import {
   HomeIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  AdjustmentsHorizontalIcon,
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import NoteExplorer from "./folderexplorer";
 import Link from "next/link";
 const sidebar = () => {
   const [open, setOpen] = useState(true);
+  const show_empty = true;
   return (
     <div className="flex h-screen">
       <div
@@ -19,12 +24,19 @@ const sidebar = () => {
         } h-full flex flex-col bg-gray-50 relative transition-all duration-300 ease-in-out border-r border-gray-400`}
       >
         <ProfileItem text={"display name"} setOpen={setOpen} open={open} />
-        <div className="border-t border-gray-400 pt-2 m-2 "></div>
-        <HomeButton />
-        <SearchItem />
-        <div className="border-t border-gray-400 pt-2 m-2 "></div>
-        <NoteExplorer WorkspaceTitle="Research workspace" />
-        <div className="border-t border-gray-400 pt-2 m-2 "></div>
+        {show_empty ? (
+          <div>
+            <div className="border-t border-gray-400 pt-2 m-2 "></div>
+            <HomeButton />
+            <SearchItem />
+            <div className="border-t border-gray-400 pt-2 m-2 "></div>
+            <NoteExplorer WorkspaceTitle="Research workspace" />
+            <div className="border-t border-gray-400 pt-2 m-2 "></div>
+            <WorkspaceSettings />
+          </div>
+        ) : (
+          <div></div>
+        )}
         <LogoutButton />
       </div>
     </div>
@@ -83,6 +95,15 @@ const HomeButton = () => {
       <HomeIcon className="ml-2 h-6 w-6" />
       <p className="ml-2 text-md">dashboard</p>
     </Link>
+  );
+};
+
+const WorkspaceSettings = () => {
+  return (
+    <div className="flex pt-2 pb-2 ml-2 mr-2 rounded-md justify-start col-span-2 hover:bg-gray-300 transition-all ease-in-out delay-50 cursor-pointer">
+      <AdjustmentsHorizontalIcon className="ml-2 h-6 w-6" />
+      <p className="ml-2 text-md">Manager</p>
+    </div>
   );
 };
 
