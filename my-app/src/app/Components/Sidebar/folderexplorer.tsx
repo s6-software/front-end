@@ -10,7 +10,7 @@ const NoteExplorer = ({ WorkspaceTitle }: NoteExplorerProps) => {
   const [currentSelectedNote, setCurrentSelectedNote] =
     useCurrentSelectedNote();
   return (
-    <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col">
+    <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col select-none">
       <p className="ml-2 text-base">{WorkspaceTitle}</p>
 
       {All_Folders.map((item) => (
@@ -85,7 +85,7 @@ const NoteItem = ({
 }: NoteItemProps) => {
   return (
     <div
-      className="flex w-full rounded-md hover:bg-gray-400 cursor-pointer transition-all ease-in-out"
+      className="flex w-full rounded-md hover:bg-gray-300 cursor-pointer transition-all ease-in-out"
       onClick={(e) => setCurrentSelectedNote(Path)}
     >
       <p
