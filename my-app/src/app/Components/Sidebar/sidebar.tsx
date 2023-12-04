@@ -1,5 +1,9 @@
 "use client";
-import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronRightIcon,
+  HomeIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -46,7 +50,11 @@ const ProfileItem = ({ text, setOpen, open }: ProfileItemProps) => {
         </div>
 
         <button className="mr-5" onClick={(e) => setOpen(!open)}>
-          {open ? "<" : ">"}
+          {open ? (
+            <ChevronRightIcon className="w-6 h-6" />
+          ) : (
+            <ChevronRightIcon className="w-6 h-6 rotate-180" />
+          )}
         </button>
       </div>
     </div>
