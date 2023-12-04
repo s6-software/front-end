@@ -1,6 +1,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
-import Sidebar from "../Components/sidebar";
+import Sidebar from "../Components/Sidebar/sidebar";
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 async function useAuthentication() {

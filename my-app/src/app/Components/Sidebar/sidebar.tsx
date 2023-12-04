@@ -1,26 +1,16 @@
 "use client";
-import {
-  ChevronRightIcon,
-  FolderIcon,
-  FolderOpenIcon,
-  HomeIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
-import {
-  ArrowRightOnRectangleIcon,
-  HomeModernIcon,
-} from "@heroicons/react/24/outline";
+import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { signOut } from "next-auth/react";
-
+import NoteExplorer from "./folderexplorer";
 const sidebar = () => {
   const [open, setOpen] = useState(true);
-
   return (
     <div className="flex">
       <div
         className={`${
-          open ? "w-80" : "w-32"
+          open ? "w-80" : "w-40"
         } h-screen flex flex-col bg-gray-500 relative transition-all duration-300 ease-in-out`}
       >
         <ProfileItem text={"display name"} setOpen={setOpen} open={open} />
@@ -28,8 +18,8 @@ const sidebar = () => {
         <HomeButton />
         <SearchItem />
         <div className="border-t border-gray-700 pt-2 m-2 "></div>
-
-        <NoteExplorer />
+        <NoteExplorer WorkspaceTitle="Research workspace" />
+        <div className="border-t border-gray-700 pt-2 m-2 "></div>
         <LogoutButton />
       </div>
     </div>
@@ -97,45 +87,4 @@ const LogoutButton = () => {
   );
 };
 
-const NoteExplorer = () => {
-  return (
-    <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col">
-      <p className="ml-2 text-base">Workspace Title</p>
-
-      <FolderItem />
-      <FolderItem />
-    </div>
-  );
-};
-
-const FolderItem = () => {
-  const [open, setOpen] = useState(false);
-  const list = ["note 1", "note 2", "note 3", "note 4", "note 5"];
-  return (
-    <div>
-      <div onClick={(e) => setOpen(!open)} className="flex  w-full">
-        <div className="flex w-full ml-2 mt-2 text-base rounded-md col-span-2 cursor-pointer hover:bg-gray-400 transition-all ease-in-out delay-50">
-          {open ? (
-            <FolderOpenIcon className="ml-2 h-6 w-6" />
-          ) : (
-            <FolderIcon className="ml-2 h-6 w-6" />
-          )}
-          <p className={`ml-2 text-lg ${open ? "font-bold" : "font-normal"}`}>
-            folder title
-          </p>
-        </div>
-      </div>
-
-      {open && list.map((item) => <NoteItem key={item} />)}
-    </div>
-  );
-};
-
-const NoteItem = () => {
-  return (
-    <div className="flex w-full rounded-md hover:bg-gray-400 cursor-pointer transition-all ease-in-out">
-      <p className="ml-8 text-normal ">Note title</p>
-    </div>
-  );
-};
 export default sidebar;
