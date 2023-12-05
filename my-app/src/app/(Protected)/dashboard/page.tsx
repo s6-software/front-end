@@ -1,8 +1,8 @@
+"use client";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import React from "react";
-
 const page = () => {
   return (
     <div className="w-full h-screen align-middle justify-center">
@@ -57,58 +57,7 @@ const WorkspaceExplorer = () => {
       owner: true,
       time: "2 days ago",
     },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "2",
-      shared: false,
-      owner: false,
-      time: "1 days ago",
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "3",
-      shared: false,
-      owner: false,
-      time: "3 days ago",
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "4",
-      shared: true,
-      owner: false,
-      time: "2 days ago",
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "5",
-      shared: false,
-      owner: false,
-      time: "5 days ago",
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "6",
-      shared: false,
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "7",
-      shared: false,
-    },
-    {
-      name: "Research notes",
-      description: "This is the max amount of chars",
-      id: "8",
-      shared: false,
-    },
   ];
-  workspaces = [];
   return (
     <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden mx-auto w-5/6">
       {workspaces.length === 0 && (
