@@ -1,5 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
@@ -27,7 +28,10 @@ const page = () => {
 
 const CreateWorkspaceButton = () => {
   return (
-    <div className="flex w-96 flex-col  mb-2 bg-green-300 border-dashed border  border-black p-6 rounded-lg shadow hover:bg-green-200 cursor-pointer transition-all duration-300">
+    <Link
+      href={"createWorkspace"}
+      className="flex w-96 flex-col  mb-2 bg-green-300 border-dashed border  border-black p-6 rounded-lg shadow hover:bg-green-200 cursor-pointer transition-all duration-300"
+    >
       <h1 className="flex w-full mb-2 text-2xl font-bold tracking-tight text-black">
         Create new workspace
       </h1>
@@ -39,12 +43,12 @@ const CreateWorkspaceButton = () => {
       <div className="flex w-full justify-end">
         <PlusCircleIcon className="w-16 h-16" />
       </div>
-    </div>
+    </Link>
   );
 };
 
 const WorkspaceExplorer = () => {
-  const workspaces = [
+  let workspaces = [
     {
       name: "Research notes",
       description: "This is the max amount of chars",
@@ -104,11 +108,21 @@ const WorkspaceExplorer = () => {
       shared: false,
     },
   ];
+  workspaces = [];
   return (
     <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden mx-auto w-5/6">
+      {workspaces.length === 0 && (
+        <>
+          <EmptyWorkspaceCardItem />
+          <EmptyWorkspaceCardItem />
+          <EmptyWorkspaceCardItem />
+        </>
+      )}
+
       {workspaces.map((obj) => (
         <WorkspaceCardItem
           name={obj.name}
+          key={obj.id}
           description={obj.description}
           id={obj.id}
           shared={obj.shared}
@@ -120,6 +134,27 @@ const WorkspaceExplorer = () => {
   );
 };
 
+const EmptyWorkspaceCardItem = () => {
+  const cardstyle = { flex: "1 0 30%" };
+  return (
+    <div
+      style={cardstyle}
+      className="flex flex-col h-72 mb-2 bg-slate-100 border border-dashed border-black p-6 rounded-lg shadow hover:bg-gray-50 cursor-pointer transition-all duration-300"
+    >
+      <div className="flex w-full flex-col">
+        <h1 className="flex w-full mb-2 text-2xl font-bold tracking-tight text-black">
+          Empty slot
+        </h1>
+
+        <p className="font-normal text-gray700"></p>
+      </div>
+
+      <div className="flex w-full justify-between items-end mt-auto">
+        <div className="flex flex-row"></div>
+      </div>
+    </div>
+  );
+};
 interface WorkspaceCardItemProps {
   name: string;
   description: string;

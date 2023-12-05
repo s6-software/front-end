@@ -1,6 +1,6 @@
 import { FolderIcon, FolderOpenIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import useCurrentSelectedNote from "./sidebarHook";
+import { useCurrentSelectedNote } from "./sidebarHook";
 
 interface NoteExplorerProps {
   WorkspaceTitle: string;

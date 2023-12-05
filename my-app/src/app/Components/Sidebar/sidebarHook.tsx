@@ -1,9 +1,12 @@
+"use client";
 import { useState, useEffect } from "react";
 
 const useLocalStorage = (key: string, initialValue: any) => {
   const [value, setValue] = useState(() => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : initialValue;
+    if (typeof window !== "undefined") {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : initialValue;
+    }
   });
 
   useEffect(() => {
@@ -13,7 +16,7 @@ const useLocalStorage = (key: string, initialValue: any) => {
   return [value, setValue];
 };
 
-const useCurrentSelectedNote = () => {
+export const useCurrentSelectedNote = () => {
   const [currentSelectedNote, setCurrentSelectedNote] = useLocalStorage(
     "ActiveNote",
     "none"
@@ -21,4 +24,18 @@ const useCurrentSelectedNote = () => {
   return [currentSelectedNote, setCurrentSelectedNote];
 };
 
-export default useCurrentSelectedNote;
+export const useCurrentWorkspace = () => {
+  const [currentWorkspace, setCurrentWorkspace] = useLocalStorage(
+    "ActiveWorkspace",
+    "none"
+  );
+  return [currentWorkspace, setCurrentWorkspace];
+};
+
+export const getAllWorkspaces = () => {
+  const [allWorkspaces, setAllWorkspaces] = useLocalStorage(
+    "Workspaces",
+    "none"
+  );
+  return [allWorkspaces, setAllWorkspaces];
+};

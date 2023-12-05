@@ -7,7 +7,6 @@ import {
 import {
   AdjustmentsHorizontalIcon,
   ArrowRightOnRectangleIcon,
-  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -64,9 +63,9 @@ const ProfileItem = ({ text, setOpen, open }: ProfileItemProps) => {
 
         <button className="mr-5" onClick={(e) => setOpen(!open)}>
           {open ? (
-            <ChevronRightIcon className="w-6 h-6" />
-          ) : (
             <ChevronRightIcon className="w-6 h-6 rotate-180" />
+          ) : (
+            <ChevronRightIcon className="w-6 h-6 " />
           )}
         </button>
       </div>
@@ -110,8 +109,7 @@ const WorkspaceSettings = () => {
 const LogoutButton = () => {
   const logout = async () => {
     try {
-      await signOut(); // Call the signOut function from NextAuth.js
-      // Additional logout logic or redirect can be added here
+      await signOut();
     } catch (error) {
       console.error("Logout failed", error);
     }
