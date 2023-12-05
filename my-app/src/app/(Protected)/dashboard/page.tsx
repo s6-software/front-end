@@ -8,11 +8,11 @@ const page = () => {
       <div className="flex bg-gray-100 border-gray-300  border w-3/4 h-screen mx-auto">
         <div className="flex flex-col w-full align-center">
           <div>
-            <h1 className="text-center mb-4 text-4xl font-extrabold text-black md:text-5xl lg:text-6xl ">
-              All workspaces
+            <h1 className="text-center mb-4 text-4xl font-extrabold text-black md:text-5xl lg:text-6xl mt-5">
+              Recent
             </h1>
           </div>
-          <div className="flex flex-col justify-between h-full">
+          <div className="flex flex-col justify-between h-full mt-20">
             <WorkspaceExplorer />
 
             <div className="flex w-full self-end justify-center">
@@ -51,30 +51,39 @@ const WorkspaceExplorer = () => {
       id: "1",
       shared: true,
       owner: true,
+      time: "2 days ago",
     },
     {
       name: "Research notes",
       description: "This is the max amount of chars",
       id: "2",
       shared: false,
+      owner: false,
+      time: "1 days ago",
     },
     {
       name: "Research notes",
       description: "This is the max amount of chars",
       id: "3",
       shared: false,
+      owner: false,
+      time: "3 days ago",
     },
     {
       name: "Research notes",
       description: "This is the max amount of chars",
       id: "4",
       shared: true,
+      owner: false,
+      time: "2 days ago",
     },
     {
       name: "Research notes",
       description: "This is the max amount of chars",
       id: "5",
       shared: false,
+      owner: false,
+      time: "5 days ago",
     },
     {
       name: "Research notes",
@@ -104,6 +113,7 @@ const WorkspaceExplorer = () => {
           id={obj.id}
           shared={obj.shared}
           owner={obj.owner}
+          time={obj.time}
         />
       ))}
     </div>
@@ -116,6 +126,7 @@ interface WorkspaceCardItemProps {
   id: string;
   shared?: boolean;
   owner?: boolean;
+  time?: string;
 }
 const WorkspaceCardItem = ({
   name,
@@ -123,6 +134,7 @@ const WorkspaceCardItem = ({
   id,
   shared,
   owner,
+  time,
 }: WorkspaceCardItemProps) => {
   const cardstyle = { flex: "1 0 30%" };
 
@@ -140,18 +152,22 @@ const WorkspaceCardItem = ({
       </div>
 
       <div className="flex w-full justify-between items-end mt-auto">
-        {shared && (
-          <UserGroupIcon
-            title="This workspace is shared"
-            className="w-8 h-8 fill-blue-500 stroke-black"
-          />
-        )}
-        {owner && (
-          <SparklesIcon
-            title="you are the owner of this workspace"
-            className="w-8 h-8 fill-yellow-500 stroke-black"
-          />
-        )}
+        <div className="flex flex-row">
+          {shared && (
+            <UserGroupIcon
+              title="This workspace is shared"
+              className="w-8 h-8 fill-blue-500 stroke-black"
+            />
+          )}
+
+          {owner && (
+            <SparklesIcon
+              title="you are the owner of this workspace"
+              className="w-8 h-8 fill-yellow-500 stroke-black"
+            />
+          )}
+        </div>
+        {time && <p className="flex font-normal text-gray-700 ">{time}</p>}
       </div>
     </div>
   );
