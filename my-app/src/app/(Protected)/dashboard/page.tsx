@@ -58,6 +58,7 @@ const WorkspaceExplorer = () => {
       time: "2 days ago",
     },
   ];
+
   return (
     <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden mx-auto w-5/6">
       {workspaces.length === 0 && (
