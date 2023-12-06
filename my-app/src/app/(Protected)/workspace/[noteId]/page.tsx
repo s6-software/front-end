@@ -78,7 +78,12 @@ function NewEditor() {
         onChange={(e) => setNoteTitle(e.target.value)}
       />
       <div id="editorjs"></div>
-      <button onClick={save}>Save</button>
+      <button
+        onClick={save}
+        className="bg-blue-500 text-white px-6 py-2 rounded-md absolute bottom-2 right-2"
+      >
+        Save
+      </button>
     </>
   );
 }
@@ -116,38 +121,3 @@ const ReactEditorJS = () => {
     </div>
   );
 };
-
-// const EditorComponent = () => {
-//   const ejInstance = useRef();
-//   const initEditor = () => {
-//     const editor = new EditorJS({
-//       holder: "editorjs",
-//       onReady: () => {
-//         ejInstance.current = editor;
-//       },
-//       autofocus: true,
-//       onChange: async () => {
-//         let content = await editor.saver.save();
-//         console.log(content);
-//       },
-//       tools: {
-//         header: {
-//           class: Header,
-//           inlineToolbar: ["link"],
-//         },
-//       },
-//     });
-//   };
-
-//   useEffect(() => {
-//     if (ejInstance.current !== null) {
-//       initEditor();
-//     }
-//     return () => {
-//       ejInstance?.current?.destroy();
-//       ejInstance.current = null;
-//     };
-//   }, []);
-
-//   return <div id="editorjs"></div>;
-// };
