@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-export default function Home({ params }) {
+export default function Home({ params }: any) {
   const [noteTitle, setNoteTitle] = useState("Note title");
   return (
     <div className="bg-gray-400 flex w-full h-view">
