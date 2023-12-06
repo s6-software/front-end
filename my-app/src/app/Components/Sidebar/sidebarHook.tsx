@@ -78,23 +78,7 @@ export const WorkspaceInstance = ({}) => {
     ]);
   };
 
-  return (
-    <WorkspaceContext.Provider
-      value={{
-        currentWorkspace,
-        setCurrentWorkspace,
-        allWorkspaces,
-        setAllWorkspaces,
-        currentSelectedNote,
-        setCurrentSelectedNote,
-        allNotes,
-        setAllNotes,
-        initWorkspace,
-      }}
-    >
-      {children}
-    </WorkspaceContext.Provider>
-  );
+  // return <WorkspaceContext.Provider value={}}></WorkspaceContext.Provider>;
 };
 
 export const useWorkspaceInstance = () => {
