@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import EditorJS, { OutputData } from "@editorjs/editorjs";
+import { EDITOR_JS_TOOLS } from "./tools";
 export default function Home({ params }: any) {
   return (
     <div className="bg-white flex w-full h-view">
@@ -15,6 +16,7 @@ export default function Home({ params }: any) {
 }
 
 function NewEditor() {
+  const [editorData, setEditorData] = useState<OutputData | null>(null);
   const [noteTitle, setNoteTitle] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const ref = useRef<EditorJS>();
@@ -22,15 +24,31 @@ function NewEditor() {
   const initializeEditor = async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
     const Header = (await import("@editorjs/header")).default;
-
+    const Checklist = (await import("@editorjs/checklist")).default;
+    const SimpleImage = (await import("@editorjs/simple-image")).default;
+    const List = (await import("@editorjs/list")).default;
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editorjs",
         tools: {
           header: Header,
+          checklist: {
+            class: Checklist,
+            inlineToolbar: true,
+          },
+          image: SimpleImage,
+          list: {
+            class: List,
+            inlineToolbar: true,
+            config: {
+              defaultStyle: "unordered",
+            },
+          },
         },
       });
-
+      if (editorData) {
+        editor.render(editorData);
+      }
       ref.current = editor;
     }
   };
@@ -73,7 +91,7 @@ function NewEditor() {
   return (
     <>
       <input
-        className="flex w-full text-center text-2xl mt-2 p-4 bg-transparent border border-transparent focus:outline-none focus:ring-0"
+        className="flex w-full font-bold text-center text-3xl mt-2 p-4 bg-transparent border border-transparent focus:outline-none focus:ring-0"
         value={noteTitle}
         onChange={(e) => setNoteTitle(e.target.value)}
       />
