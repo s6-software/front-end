@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 
-const page = () => {
+export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,6 +104,4 @@ const page = () => {
       </div>
     </div>
   );
-};
-
-export default page;
+}

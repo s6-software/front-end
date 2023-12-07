@@ -46,7 +46,7 @@ function give_password_strength_score(password: string, setPassword: any) {
   };
 }
 
-const page = () => {
+export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -213,7 +213,7 @@ const page = () => {
       </div>
     </div>
   );
-};
+}
 
 interface PasswordProgressBarProps {
   percentage: number;
@@ -289,5 +289,3 @@ const PasswordProgressBar = ({ percentage }: PasswordProgressBarProps) => {
     </div>
   );
 };
-
-export default page;

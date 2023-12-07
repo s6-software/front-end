@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <div className="bg-gray-800 text-white h-screen flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Note Chimp</h1>
         <p className="text-lg mb-8">Your note management portal</p>
         <button
           onClick={handleRedirect}

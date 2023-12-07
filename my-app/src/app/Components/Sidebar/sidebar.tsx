@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import NoteExplorer from "./folderexplorer";
 import Link from "next/link";
-const sidebar = () => {
+export default function Sidebar() {
   const [open, setOpen] = useState(true);
   const show_empty = true;
   return (
@@ -40,7 +40,7 @@ const sidebar = () => {
       </div>
     </div>
   );
-};
+}
 
 interface ProfileItemProps {
   text: string;
@@ -125,5 +125,3 @@ const LogoutButton = () => {
     </div>
   );
 };
-
-export default sidebar;

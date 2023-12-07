@@ -1,6 +1,8 @@
+"use client";
 import { FolderIcon, FolderOpenIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { useCurrentSelectedNote } from "./sidebarHook";
+import Link from "next/link";
 
 interface NoteExplorerProps {
   WorkspaceTitle: string;
@@ -57,7 +59,7 @@ const FolderItem = ({
             <NoteItem
               key={folderTitle + "/" + item}
               NoteTitle={item}
-              Path={folderTitle + "/" + item}
+              Path={folderTitle + item}
               currentSelectedNote={currentSelectedNote}
               setCurrentSelectedNote={setCurrentSelectedNote}
             />
@@ -82,7 +84,8 @@ const NoteItem = ({
   setCurrentSelectedNote,
 }: NoteItemProps) => {
   return (
-    <div
+    <Link
+      href={"/workspace/" + Path}
       className="flex w-full rounded-md hover:bg-gray-300 cursor-pointer transition-all ease-in-out"
       onClick={(e) => setCurrentSelectedNote(Path)}
     >
@@ -93,7 +96,7 @@ const NoteItem = ({
       >
         {NoteTitle}
       </p>
-    </div>
+    </Link>
   );
 };
 
