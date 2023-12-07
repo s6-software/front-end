@@ -1,8 +1,56 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import EditorJS from "@editorjs/editorjs";
+import EditorJS, { OutputData } from "@editorjs/editorjs";
 export default function NewEditor() {
   // const [editorData, setEditorData] = useState<string | null>();
+  const [editorData, setEditorData] = useState<OutputData | undefined>({
+    time: 1701973129871,
+    blocks: [
+      {
+        id: "cVj8kADSt-",
+        type: "header",
+        data: {
+          text: "Welcome",
+          level: 2,
+        },
+      },
+      {
+        id: "QYre-c6_V4",
+        type: "paragraph",
+        data: {
+          text: "looks like this is your first note. try creating some text or adding images",
+        },
+      },
+      {
+        id: "JNWkPfAXJU",
+        type: "paragraph",
+        data: {
+          text: "or try making a todo list",
+        },
+      },
+      {
+        id: "cYrzbhjTk3",
+        type: "checklist",
+        data: {
+          items: [
+            {
+              text: "task 1",
+              checked: false,
+            },
+            {
+              text: "task 2",
+              checked: false,
+            },
+            {
+              text: "finished task 3",
+              checked: true,
+            },
+          ],
+        },
+      },
+    ],
+    version: "2.28.2",
+  });
   const [noteTitle, setNoteTitle] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const ref = useRef<EditorJS>();
@@ -17,6 +65,7 @@ export default function NewEditor() {
       const EditorJS = (await import("@editorjs/editorjs")).default;
       const editor = new EditorJS({
         holder: "editorjs",
+        data: editorData,
         tools: {
           header: Header,
           checklist: {
