@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 export default function NewEditor() {
-  // const [editorData, setEditorData] = useState<string | null>();
   const [editorData, setEditorData] = useState<OutputData | undefined>({
     time: 1701973129871,
     blocks: [
