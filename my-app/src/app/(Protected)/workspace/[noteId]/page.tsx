@@ -14,7 +14,26 @@ export default function Home({ params }: any) {
 }
 
 function NewEditor() {
-  const [editorData, setEditorData] = useState<OutputData | null>(null);
+  const [editorData, setEditorData] = useState<OutputData | null>({
+    time: 1556098174501,
+    blocks: [
+      {
+        id: "heEL8FbJ8c",
+        type: "paragraph",
+        data: {
+          text: "load this text plz",
+        },
+      },
+      {
+        id: "2MhEDhpvHs",
+        type: "paragraph",
+        data: {
+          text: "this simore text",
+        },
+      },
+    ],
+    version: "2.28.2",
+  });
   const [noteTitle, setNoteTitle] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const ref = useRef<EditorJS>();
@@ -28,6 +47,7 @@ function NewEditor() {
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editorjs",
+        data: editorData,
         tools: {
           header: Header,
           checklist: {
@@ -44,9 +64,7 @@ function NewEditor() {
           },
         },
       });
-      if (editorData) {
-        editor.render(editorData);
-      }
+
       ref.current = editor;
     }
   };
