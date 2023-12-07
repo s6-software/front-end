@@ -19,3 +19,10 @@
   background: #c3c3c3;
   border-radius: 20px;
 }
+
+h2 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #000000;
+}

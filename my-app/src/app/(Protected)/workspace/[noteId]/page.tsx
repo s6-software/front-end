@@ -5,7 +5,7 @@ import EditorJS, { OutputData } from "@editorjs/editorjs";
 export default function Home({ params }: any) {
   return (
     <div className="bg-white flex w-full h-view">
-      <div className="flex bg-gray-300 w-1/2 mx-auto justify-center">
+      <div className="flex bg-gray-100 w-3/5 mx-auto justify-center">
         <div className="w-full h-screen my-auto overflow-auto">
           <NewEditor />
         </div>
