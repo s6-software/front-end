@@ -20,7 +20,7 @@
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-quill": "^2.0.0"
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "@editorjs/checklist": "^1.6.0",
