@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const authOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -24,35 +26,25 @@ const authOptions = {
         },
       },
       async authorize(credentials, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-
-        const res = await fetch(
-          "https://jsonplaceholder.typicode.com/todos/1",
-          {
-            method: "GET",
-            // body: JSON.stringify(credentials),
+        try {
+          console.log(process.env.USERSERVICE_URL + "/api/User/login");
+          const res = await fetch(process.env.USERSERVICE_URL + "/api/User/Login", {
+            method: "POST",
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
             headers: { "Content-Type": "application/json" },
+          });
+          const user = await res.json();
+          console.log(user);
+          if (res.ok && user) {
+            return user;
           }
-        );
-
-        let user = await res.json();
-        user = {
-          id: 1,
-          name: "J Smith",
-          email: "jsmith@example.com",
-        };
-        // If no error and we have user data, return it
-        if (user) {
-          return user;
+          return null;
+        } catch (error) {
+          console.error("Error occurred during fetch:", error);
         }
-
-        // Return null if user data could not be retrieved
-        return null;
       },
     }),
   ],
