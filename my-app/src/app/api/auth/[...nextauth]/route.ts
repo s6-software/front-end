@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const authOptions = {
   providers: [
@@ -21,8 +20,7 @@ const authOptions = {
       },
       async authorize(credentials, req) {
         try {
-          console.log(process.env.USERSERVICE_URL + "/api/User/login");
-          const res = await fetch(process.env.USERSERVICE_URL + "/api/User/Login", {
+          const res = await fetch(process.env.NEXT_PUBLIC_USERSERVICE_URL + "/api/User/Login", {
             method: "POST",
             body: JSON.stringify({
               email: credentials.email,
@@ -46,4 +44,4 @@ const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-export {  handler as POST };
+export {handler as POST, handler as GET };
