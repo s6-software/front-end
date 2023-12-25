@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 
 export default function Page() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     signIn("credentials", {
-      email: username,
+      email: email,
       password: password,
       callbackUrl: "/home",
     });
@@ -54,8 +54,8 @@ export default function Page() {
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="example@gmail.com"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                   required
                 />
