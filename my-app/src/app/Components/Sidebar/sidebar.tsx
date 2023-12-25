@@ -12,9 +12,14 @@ import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import NoteExplorer from "./folderexplorer";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
   const show_empty = true;
+  const { data: session } = useSession();
+  const userName = session?.user?.name || 'invalid user'; 
+
   return (
     <div className="flex h-screen">
       <div
@@ -22,7 +27,7 @@ export default function Sidebar() {
           open ? "w-80" : "w-40"
         } h-full flex flex-col bg-gray-50 relative transition-all duration-300 ease-in-out border-r border-gray-400`}
       >
-        <ProfileItem text={"display name"} setOpen={setOpen} open={open} />
+        <ProfileItem text={userName} setOpen={setOpen} open={open} />
         {show_empty ? (
           <div>
             <div className="border-t border-gray-400 pt-2 m-2 "></div>
