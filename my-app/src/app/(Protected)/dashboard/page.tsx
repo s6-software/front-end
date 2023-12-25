@@ -9,8 +9,8 @@ const page = () => {
       <div className="flex bg-gray-100 border-gray-300  border w-3/4 h-screen mx-auto">
         <div className="flex flex-col w-full align-center">
           <div>
-            <h1 className="text-center mb-4 text-4xl font-extrabold text-black md:text-5xl lg:text-6xl mt-5">
-              Recent
+            <h1 className="text-center mb-4 text-4xl font-bold text-black md:text-5xl lg:text-6xl mt-5">
+              Your workspaces
             </h1>
           </div>
           <div className="flex flex-col justify-between h-full mt-20">
@@ -29,7 +29,7 @@ const page = () => {
 const CreateWorkspaceButton = () => {
   return (
     <Link
-      href={"createWorkspace"}
+      href={"create"}
       className="flex w-96 flex-col  mb-2 bg-green-300 border-dashed border  border-black p-6 rounded-lg shadow hover:bg-green-200 cursor-pointer transition-all duration-300"
     >
       <h1 className="flex w-full mb-2 text-2xl font-bold tracking-tight text-black">
@@ -61,14 +61,6 @@ const WorkspaceExplorer = () => {
 
   return (
     <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden mx-auto w-5/6">
-      {workspaces.length === 0 && (
-        <>
-          <EmptyWorkspaceCardItem />
-          <EmptyWorkspaceCardItem />
-          <EmptyWorkspaceCardItem />
-        </>
-      )}
-
       {workspaces.map((obj) => (
         <WorkspaceCardItem
           name={obj.name}
@@ -80,6 +72,13 @@ const WorkspaceExplorer = () => {
           time={obj.time}
         />
       ))}
+      {workspaces.length < 2 && (
+        <>
+          <EmptyWorkspaceCardItem />
+          <EmptyWorkspaceCardItem />
+          <EmptyWorkspaceCardItem />
+        </>
+      )}
     </div>
   );
 };
@@ -89,7 +88,7 @@ const EmptyWorkspaceCardItem = () => {
   return (
     <div
       style={cardstyle}
-      className="flex flex-col h-72 mb-2 bg-slate-100 border border-dashed border-black p-6 rounded-lg shadow hover:bg-gray-50 cursor-pointer transition-all duration-300"
+      className="flex flex-col h-72 mb-2 bg-slate-200 border border-dashed border-black p-6 rounded-lg shadow"
     >
       <div className="flex w-full flex-col">
         <h1 className="flex w-full mb-2 text-2xl font-bold tracking-tight text-black">
