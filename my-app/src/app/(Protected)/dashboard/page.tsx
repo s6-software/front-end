@@ -3,7 +3,36 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { SparklesIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import React from "react";
-const page = () => {
+import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useFolders } from "@/app/Components/Sidebar/sidebarHook";
+function getWorkspaces(token: string, setWorkspaces: any) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  fetch("http://localhost:3456/workspace", requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      setWorkspaces(data);
+    })
+    .catch((error) => {
+      signOut();
+    });
+}
+
+function Page() {
+  const { data: session, status } = useSession();
+  const [workspace, setWorkspace] = React.useState([]);
+  const [folders, setFolders] = useFolders();
+
+  useEffect(() => {
+    setFolders([]);
+    getWorkspaces(session?.user?.email as string, setWorkspace);
+  }, []);
   return (
     <div className="w-full h-screen align-middle justify-center">
       <div className="flex bg-gray-100 border-gray-300  border w-3/4 h-screen mx-auto">
@@ -14,7 +43,7 @@ const page = () => {
             </h1>
           </div>
           <div className="flex flex-col justify-between h-full mt-20">
-            <WorkspaceExplorer />
+            <WorkspaceExplorer workspace={workspace} />
 
             <div className="flex w-full self-end justify-center">
               <CreateWorkspaceButton />
@@ -24,7 +53,7 @@ const page = () => {
       </div>
     </div>
   );
-};
+}
 
 const CreateWorkspaceButton = () => {
   return (
@@ -47,26 +76,31 @@ const CreateWorkspaceButton = () => {
   );
 };
 
-const WorkspaceExplorer = () => {
+const WorkspaceExplorer = (workspace: any) => {
   let workspaces = [
     {
-      name: "Research notes",
+      title: "Research notes",
       description: "This is the max amount of chars",
-      id: "1",
+      _id: "1",
       shared: true,
       owner: true,
       time: "2 days ago",
     },
   ];
 
+  if (workspace.workspace.length > 0) {
+    workspaces = workspace.workspace;
+    console.log(workspaces);
+  }
+
   return (
     <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden mx-auto w-5/6">
       {workspaces.map((obj) => (
         <WorkspaceCardItem
-          name={obj.name}
-          key={obj.id}
+          name={obj.title}
+          key={obj._id}
           description={obj.description}
-          id={obj.id}
+          id={obj._id}
           shared={obj.shared}
           owner={obj.owner}
           time={obj.time}
@@ -123,7 +157,8 @@ const WorkspaceCardItem = ({
   const cardstyle = { flex: "1 0 30%" };
 
   return (
-    <div
+    <Link
+      href={"/workspace/" + id}
       style={cardstyle}
       className="flex flex-col h-72 mb-2 bg-slate-100 border border-black p-6 rounded-lg shadow hover:bg-gray-50 cursor-pointer transition-all duration-300"
     >
@@ -153,7 +188,7 @@ const WorkspaceCardItem = ({
         </div>
         {time && <p className="flex font-normal text-gray-700 ">{time}</p>}
       </div>
-    </div>
+    </Link>
   );
 };
-export default page;
+export default Page;
