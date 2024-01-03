@@ -93,13 +93,15 @@ export const useCurrentWorkspace = () => {
 //   return context;
 // };
 import React from "react";
-type FoldersContextType = [any[], React.Dispatch<React.SetStateAction<any[]>>];
+type FoldersContextType = {
+  folders: any[];
+  setFolders: React.Dispatch<React.SetStateAction<any[]>>;
+};
 
 const FoldersContext = createContext<FoldersContextType | undefined>(undefined);
 
-export const FoldersProvider = ({ children }) => {
+export const FoldersProvider = ({ children }: any) => {
   const [folders, setFolders] = useState<any[]>([]);
-
   useEffect(() => {
     const storedFolders = localStorage.getItem("Folders");
     if (storedFolders) {
@@ -114,7 +116,12 @@ export const FoldersProvider = ({ children }) => {
   }, [folders]);
 
   return (
-    <FoldersContext.Provider value={[folders, setFolders]}>
+    <FoldersContext.Provider
+      value={{
+        folders,
+        setFolders,
+      }}
+    >
       {children}
     </FoldersContext.Provider>
   );
@@ -126,6 +133,5 @@ export const useFolders = () => {
   if (!context) {
     throw new Error("useFolders must be used within a FoldersProvider");
   }
-
-  return context;
+  return [context.folders, context.setFolders];
 };
