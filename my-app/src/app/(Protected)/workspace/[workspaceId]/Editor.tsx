@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
+import io from "socket.io-client";
 export default function NewEditor() {
   const [editorData, setEditorData] = useState<OutputData | undefined>({
     time: 1701973129871,
@@ -53,7 +54,6 @@ export default function NewEditor() {
   const [noteTitle, setNoteTitle] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const ref = useRef<EditorJS>();
-
   const initializeEditor = async () => {
     const Header = (await import("@editorjs/header")).default;
     const Checklist = (await import("@editorjs/checklist")).default;
@@ -79,6 +79,19 @@ export default function NewEditor() {
               defaultStyle: "unordered",
             },
           },
+        },
+        onChange: () => {
+          if (ref.current) {
+            ref.current
+              .save()
+              .then((outputData) => {
+                // console.log(outputData)
+                // handleInputChange(JSON.stringify(outputData));
+              })
+              .catch((error: any) => {
+                console.log("Saving failed: ", error);
+              });
+          }
         },
       });
 
@@ -107,19 +120,7 @@ export default function NewEditor() {
     }
   }, [isMounted]);
 
-  const save = () => {
-    if (ref.current) {
-      ref.current
-        .save()
-        .then((outputData) => {
-          console.log("Article data: ", outputData);
-          alert("Article data: " + JSON.stringify(outputData));
-        })
-        .catch((error: any) => {
-          console.log("Saving failed: ", error);
-        });
-    }
-  };
+
 
   return (
     <>
@@ -129,12 +130,7 @@ export default function NewEditor() {
         onChange={(e) => setNoteTitle(e.target.value)}
       />
       <div id="editorjs"></div>
-      <button
-        onClick={save}
-        className="bg-blue-500 text-white px-6 py-2 rounded-md absolute bottom-2 right-2"
-      >
-        Save
-      </button>
     </>
   );
 }
+
