@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Sidebar from "../Components/Sidebar/sidebar";
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
+import { FoldersProvider } from "../Components/Sidebar/sidebarHook";
 async function useAuthentication() {
   const session = await getSession();
   return true;
@@ -14,10 +15,12 @@ async function Layout({ children }: any) {
     redirect("/Auth/login");
   }
   return (
-    <div className="flex">
-      <Sidebar />
-      {children}
-    </div>
+    <FoldersProvider>
+      <div className="flex">
+        <Sidebar />
+        {children}
+      </div>
+    </FoldersProvider>
   );
 }
 
