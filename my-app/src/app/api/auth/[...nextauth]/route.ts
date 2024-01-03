@@ -29,17 +29,21 @@ const authOptions = {
             headers: { "Content-Type": "application/json" },
           });
           const user = await res.json();
-          console.log(user);
           if (res.ok && user) {
-            return user;
+            console.log(user.name, user.token)            
+            return {
+              name: user.name,
+              email: user.token,
+            };
           }
-          return null;
+          return {};
         } catch (error) {
           console.error("Error occurred during fetch:", error);
         }
       },
     }),
   ],
+ 
 };
 
 const handler = NextAuth(authOptions);
