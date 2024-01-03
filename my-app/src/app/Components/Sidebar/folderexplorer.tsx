@@ -1,24 +1,43 @@
 "use client";
 import { FolderIcon, FolderOpenIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import { useCurrentSelectedNote } from "./sidebarHook";
+import { useCurrentSelectedNote, useFolders } from "./sidebarHook";
 import Link from "next/link";
 
 interface NoteExplorerProps {
   WorkspaceTitle: string;
+  Folders: string;
 }
-const NoteExplorer = ({ WorkspaceTitle }: NoteExplorerProps) => {
-  const All_Folders = ["Folder A", "Folder B", "Folder C"];
+
+interface NoteProp {
+  id: string;
+  title: string;
+  folder: string;
+}
+
+interface ServerData {
+  [folder: string]: {
+    [note: string]: string;
+  };
+}
+
+const NoteExplorer = ({ Folders, WorkspaceTitle }: NoteExplorerProps) => {
   const [currentSelectedNote, setCurrentSelectedNote] =
     useCurrentSelectedNote();
+  const FoldersObject: ServerData = JSON.parse(Folders);
   return (
     <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col select-none">
       <p className="ml-2 text-base">{WorkspaceTitle}</p>
-
-      {All_Folders.map((item) => (
+      {Object.entries(FoldersObject).map(([folderTitle, notes]) => (
         <FolderItem
-          key={item}
-          folderTitle={item}
+          key={folderTitle}
+          notes={{
+            notes: Object.entries(notes).map(([noteTitle, noteId]) => ({
+              title: noteTitle,
+              id: noteId,
+            })),
+          }}
+          folderTitle={folderTitle}
           currentSelectedNote={currentSelectedNote}
           setCurrentSelectedNote={setCurrentSelectedNote}
         />
@@ -29,6 +48,12 @@ const NoteExplorer = ({ WorkspaceTitle }: NoteExplorerProps) => {
 
 interface FolderItemProps {
   folderTitle: string;
+  notes: {
+    notes: {
+      title: string;
+      id: string;
+    }[];
+  };
   currentSelectedNote: string;
   setCurrentSelectedNote: (value: string) => void;
 }
@@ -37,6 +62,7 @@ const FolderItem = ({
   folderTitle,
   currentSelectedNote,
   setCurrentSelectedNote,
+  notes,
 }: FolderItemProps) => {
   const [open, setOpen] = useState<Boolean>(false);
   const list = ["note 1", "note 2", "note 3", "note 4", "note 5"];
@@ -55,11 +81,11 @@ const FolderItem = ({
       </div>
       <div className="border-l-2 rounded-sm border-gray-300 ml-6">
         {open &&
-          list.map((item) => (
+          notes.notes.map((note) => (
             <NoteItem
-              key={folderTitle + "/" + item}
-              NoteTitle={item}
-              Path={folderTitle + item}
+              key={folderTitle + "/" + note.title}
+              NoteTitle={note.title}
+              Path={folderTitle + note.id}
               currentSelectedNote={currentSelectedNote}
               setCurrentSelectedNote={setCurrentSelectedNote}
             />
@@ -84,8 +110,7 @@ const NoteItem = ({
   setCurrentSelectedNote,
 }: NoteItemProps) => {
   return (
-    <Link
-      href={"/workspace/" + Path}
+    <div
       className="flex w-full rounded-md hover:bg-gray-300 cursor-pointer transition-all ease-in-out"
       onClick={(e) => setCurrentSelectedNote(Path)}
     >
@@ -96,7 +121,7 @@ const NoteItem = ({
       >
         {NoteTitle}
       </p>
-    </Link>
+    </div>
   );
 };
 
