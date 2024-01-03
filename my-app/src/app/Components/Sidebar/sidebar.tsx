@@ -13,13 +13,14 @@ import { signOut } from "next-auth/react";
 import NoteExplorer from "./folderexplorer";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useFolders } from "./sidebarHook";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
   const show_empty = true;
   const { data: session } = useSession();
-  const userName = session?.user?.name || 'invalid user'; 
-
+  const userName = session?.user?.name || "invalid user";
+  const [folders, setFolders] = useFolders();
   return (
     <div className="flex h-screen">
       <div
@@ -34,8 +35,17 @@ export default function Sidebar() {
             <HomeButton />
             <SearchItem />
             <div className="border-t border-gray-400 pt-2 m-2 "></div>
-            <NoteExplorer WorkspaceTitle="Research workspace" />
-            <div className="border-t border-gray-400 pt-2 m-2 "></div>
+
+            {folders.length > 0 && (
+              <>
+                <NoteExplorer
+                  WorkspaceTitle="Default Workspace"
+                  Folders={folders}
+                />
+                <div className="border-t border-gray-400 pt-2 m-2 "></div>
+              </>
+            )}
+
             <WorkspaceSettings />
           </div>
         ) : (
