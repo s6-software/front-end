@@ -9,7 +9,11 @@ type WorkspacePage = {
     workspaceId: string;
   };
 };
-
+interface ServerData {
+  [folder: string]: {
+    [note: string]: string;
+  };
+}
 export default function Home({ params }: WorkspacePage) {
   const { data: session, status } = useSession();
 
@@ -26,9 +30,12 @@ export default function Home({ params }: WorkspacePage) {
     socket.emit("join-workspace", workspaceId);
 
     console.log("connected to workspace");
-    socket.on("receive-notes", (notes) => {
-      console.log(fakeNotes);
-      setFolders(fakeNotes);
+    socket.on("receive-notes", (product: ServerData) => {
+      console.log("Server says folders are:", product);
+
+      setFolders(JSON.stringify(product));
+
+      console.log("client saved:", folders);
     });
 
     return () => {
