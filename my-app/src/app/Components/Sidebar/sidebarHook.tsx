@@ -16,14 +16,6 @@ const useLocalStorage = (key: string, initialValue: any) => {
   return [value, setValue];
 };
 
-export const useCurrentSelectedNote = () => {
-  const [currentSelectedNote, setCurrentSelectedNote] = useLocalStorage(
-    "ActiveNote",
-    "none"
-  );
-  return [currentSelectedNote, setCurrentSelectedNote];
-};
-
 export const useCurrentWorkspace = () => {
   const [currentWorkspace, setCurrentWorkspace] = useLocalStorage(
     "ActiveWorkspace",
@@ -37,15 +29,15 @@ type FoldersContextType = {
   folders: any[];
   setFolders: React.Dispatch<React.SetStateAction<any[]>>;
 
-  selectedNote: string;
-  setSelectedNote: React.Dispatch<React.SetStateAction<string>>;
+  selectedNote: [string, string];
+  setSelectedNote: React.Dispatch<React.SetStateAction<[string, string]>>;
 };
 
 const FoldersContext = createContext<FoldersContextType | undefined>(undefined);
 
 export const FoldersProvider = ({ children }: any) => {
   const [folders, setFolders] = useState<any[]>([]);
-  const [selectedNote, setSelectedNote] = useState<string>("");
+  const [selectedNote, setSelectedNote] = useState<[string, string]>(["", ""]);
 
   useEffect(() => {
     const storedFolders = localStorage.getItem("Folders");
@@ -54,7 +46,7 @@ export const FoldersProvider = ({ children }: any) => {
       setFolders(JSON.parse(storedFolders));
     }
     if (storedSelectedNote) {
-      setSelectedNote(storedSelectedNote);
+      setSelectedNote(JSON.parse(storedSelectedNote));
     }
   }, []);
 
@@ -65,8 +57,8 @@ export const FoldersProvider = ({ children }: any) => {
   }, [folders]);
 
   useEffect(() => {
-    if (selectedNote !== "") {
-      localStorage.setItem("ActiveNote", selectedNote);
+    if (selectedNote.length > 0) {
+      localStorage.setItem("ActiveNote", JSON.stringify(selectedNote));
     }
   }, [selectedNote]);
   return (
@@ -84,7 +76,10 @@ export const FoldersProvider = ({ children }: any) => {
   );
 };
 
-export const useFolders = () => {
+export const useFolders = (): [
+  any,
+  React.Dispatch<React.SetStateAction<any>>
+] => {
   const context = useContext(FoldersContext);
 
   if (!context) {
@@ -93,7 +88,10 @@ export const useFolders = () => {
   return [context.folders, context.setFolders];
 };
 
-export const useSelectedNote = () => {
+export const useSelectedNote = (): [
+  [string, string],
+  React.Dispatch<React.SetStateAction<[string, string]>>
+] => {
   const context = useContext(FoldersContext);
 
   if (!context) {

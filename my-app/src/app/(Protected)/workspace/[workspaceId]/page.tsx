@@ -7,6 +7,7 @@ import {
   useFolders,
   useSelectedNote,
 } from "../../../Components/Sidebar/sidebarHook";
+
 type WorkspacePage = {
   params: {
     workspaceId: string;
@@ -23,6 +24,9 @@ export default function Home({ params }: WorkspacePage) {
   const workspaceId = params.workspaceId;
   const [folders, setFolders] = useFolders();
   const [selectedNote, setSelectedNote] = useSelectedNote();
+
+  const NoteName = selectedNote[0] as string;
+  const NoteId = selectedNote[1] as string;
 
   useEffect(() => {
     const socket = io("http://localhost:3456", {
@@ -51,7 +55,7 @@ export default function Home({ params }: WorkspacePage) {
     <div className="bg-white flex w-full h-view">
       <div className="flex bg-gray-100 w-3/5 mx-auto justify-center">
         <div className="w-full h-screen my-auto overflow-y-auto overflow-x-hidden ml-auto">
-          <NewEditor initNoteTitle={selectedNote as string} />
+          {NoteId && <NewEditor NoteName={NoteName} NoteId={NoteId} />}
         </div>
       </div>
     </div>

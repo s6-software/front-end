@@ -4,10 +4,11 @@ import EditorJS, { OutputData } from "@editorjs/editorjs";
 import io from "socket.io-client";
 
 interface NewEditorProps {
-  initNoteTitle: string;
+  NoteName: string;
+  NoteId: string;
 }
 
-export default function NewEditor({ initNoteTitle }: NewEditorProps) {
+export default function NewEditor({ NoteName, NoteId }: NewEditorProps) {
   const [editorData, setEditorData] = useState<OutputData | undefined>({
     time: 1701973129871,
     blocks: [
@@ -124,8 +125,8 @@ export default function NewEditor({ initNoteTitle }: NewEditorProps) {
   }, [isMounted]);
 
   useEffect(() => {
-    setNoteTitle(initNoteTitle);
-  }, [initNoteTitle]);
+    setNoteTitle(NoteName);
+  }, [NoteName]);
   return (
     <>
       <input

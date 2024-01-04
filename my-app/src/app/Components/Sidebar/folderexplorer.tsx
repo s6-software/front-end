@@ -30,10 +30,8 @@ const NoteExplorer = ({ Folders, WorkspaceTitle }: NoteExplorerProps) => {
             })),
           }}
           folderTitle={folderTitle}
-          currentSelectedNote={selectedNote as string}
-          setCurrentSelectedNote={
-            setSelectedNote as React.Dispatch<React.SetStateAction<string>>
-          }
+          currentSelectedNote={selectedNote}
+          setCurrentSelectedNote={setSelectedNote as (value: any[]) => void}
         />
       ))}
     </div>
@@ -48,8 +46,8 @@ interface FolderItemProps {
       id: string;
     }[];
   };
-  currentSelectedNote: string;
-  setCurrentSelectedNote: React.Dispatch<React.SetStateAction<string>>;
+  currentSelectedNote: [string, string];
+  setCurrentSelectedNote: (value: [string, string]) => void;
 }
 
 const FolderItem = ({
@@ -92,8 +90,8 @@ interface NoteItemProps {
   NoteTitle: string;
   Path: string;
 
-  currentSelectedNote: string;
-  setCurrentSelectedNote: (value: string) => void;
+  currentSelectedNote: [string, string];
+  setCurrentSelectedNote: (value: [string, string]) => void;
 }
 
 const NoteItem = ({
@@ -105,11 +103,11 @@ const NoteItem = ({
   return (
     <div
       className="flex w-full rounded-md hover:bg-gray-300 cursor-pointer transition-all ease-in-out"
-      onClick={(e) => setCurrentSelectedNote(Path)}
+      onClick={(e) => setCurrentSelectedNote([NoteTitle, Path])}
     >
       <p
         className={`ml-8 ${
-          currentSelectedNote == Path ? "font-bold" : "font-normal"
+          currentSelectedNote[1] == Path ? "font-bold" : "font-normal"
         }`}
       >
         {NoteTitle}
