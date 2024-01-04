@@ -29,33 +29,30 @@ export default function Home({ params }: WorkspacePage) {
   const NoteId = selectedNote[1] as string;
 
   useEffect(() => {
+    setSelectedNote(["", ""]);
     const socket = io("http://localhost:3456", {
       auth: {
         token: session?.user?.email,
       },
     });
-    console.log("socket connected");
     socket.emit("join-workspace", workspaceId);
-
-    console.log("connected to workspace");
     socket.on("receive-notes", (product: ServerData) => {
-      console.log("Server says folders are:", product);
-
       setFolders(JSON.stringify(product));
-
-      console.log("client saved:", folders);
-    });
-
-    return () => {
       socket.disconnect();
-    };
+    });
   }, []);
 
   return (
     <div className="bg-white flex w-full h-view">
       <div className="flex bg-gray-100 w-3/5 mx-auto justify-center">
         <div className="w-full h-screen my-auto overflow-y-auto overflow-x-hidden ml-auto">
-          {NoteId && <NewEditor NoteName={NoteName} NoteId={NoteId} />}
+          {NoteId && (
+            <NewEditor
+              NoteName={NoteName}
+              NoteId={NoteId}
+              WorkspaceId={workspaceId}
+            />
+          )}
         </div>
       </div>
     </div>
