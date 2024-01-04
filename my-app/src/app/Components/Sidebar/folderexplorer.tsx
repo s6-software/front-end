@@ -1,18 +1,11 @@
 "use client";
 import { FolderIcon, FolderOpenIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import { useCurrentSelectedNote, useFolders } from "./sidebarHook";
-import Link from "next/link";
+import { useSelectedNote } from "./sidebarHook";
 
 interface NoteExplorerProps {
   WorkspaceTitle: string;
   Folders: string;
-}
-
-interface NoteProp {
-  id: string;
-  title: string;
-  folder: string;
 }
 
 interface ServerData {
@@ -22,8 +15,7 @@ interface ServerData {
 }
 
 const NoteExplorer = ({ Folders, WorkspaceTitle }: NoteExplorerProps) => {
-  const [currentSelectedNote, setCurrentSelectedNote] =
-    useCurrentSelectedNote();
+  const [selectedNote, setSelectedNote] = useSelectedNote();
   const FoldersObject: ServerData = JSON.parse(Folders);
   return (
     <div className="flex pt-2 pb-2 ml-2 mr-2 justify-start flex-col select-none">
@@ -38,8 +30,10 @@ const NoteExplorer = ({ Folders, WorkspaceTitle }: NoteExplorerProps) => {
             })),
           }}
           folderTitle={folderTitle}
-          currentSelectedNote={currentSelectedNote}
-          setCurrentSelectedNote={setCurrentSelectedNote}
+          currentSelectedNote={selectedNote as string}
+          setCurrentSelectedNote={
+            setSelectedNote as React.Dispatch<React.SetStateAction<string>>
+          }
         />
       ))}
     </div>
@@ -55,7 +49,7 @@ interface FolderItemProps {
     }[];
   };
   currentSelectedNote: string;
-  setCurrentSelectedNote: (value: string) => void;
+  setCurrentSelectedNote: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const FolderItem = ({
@@ -65,7 +59,6 @@ const FolderItem = ({
   notes,
 }: FolderItemProps) => {
   const [open, setOpen] = useState<Boolean>(false);
-  const list = ["note 1", "note 2", "note 3", "note 4", "note 5"];
 
   return (
     <div>
@@ -85,7 +78,7 @@ const FolderItem = ({
             <NoteItem
               key={folderTitle + "/" + note.title}
               NoteTitle={note.title}
-              Path={folderTitle + note.id}
+              Path={note.id}
               currentSelectedNote={currentSelectedNote}
               setCurrentSelectedNote={setCurrentSelectedNote}
             />

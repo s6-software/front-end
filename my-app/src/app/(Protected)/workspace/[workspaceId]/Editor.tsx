@@ -1,8 +1,13 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import io from "socket.io-client";
-export default function NewEditor() {
+
+interface NewEditorProps {
+  initNoteTitle: string;
+}
+
+export default function NewEditor({ initNoteTitle }: NewEditorProps) {
   const [editorData, setEditorData] = useState<OutputData | undefined>({
     time: 1701973129871,
     blocks: [
@@ -104,14 +109,12 @@ export default function NewEditor() {
       setIsMounted(true);
     }
   }, []);
-
   useEffect(() => {
     const init = async () => {
       await initializeEditor();
     };
     if (isMounted) {
       init();
-
       return () => {
         if (ref.current) {
           ref.current.destroy();
@@ -120,8 +123,9 @@ export default function NewEditor() {
     }
   }, [isMounted]);
 
-
-
+  useEffect(() => {
+    setNoteTitle(initNoteTitle);
+  }, [initNoteTitle]);
   return (
     <>
       <input
@@ -133,4 +137,3 @@ export default function NewEditor() {
     </>
   );
 }
-
