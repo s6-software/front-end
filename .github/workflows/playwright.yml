@@ -18,7 +18,7 @@ jobs:
         run: npm run build
         working-directory: ./my-app
       - name: Start application
-        run: npm run start
+        run: npm run start:ci
         working-directory: ./my-app
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
