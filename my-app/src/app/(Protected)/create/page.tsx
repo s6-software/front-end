@@ -29,7 +29,7 @@ function createWorkspace(workspace: workspace, token: string) {
     });
 }
 
-const page = () => {
+const Page = () => {
   const { data: session, status } = useSession();
   const [isValid, setIsValid] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -184,4 +184,4 @@ const WorkspaceNameInput = ({
   );
 };
 
-export default page;
+export default Page;
