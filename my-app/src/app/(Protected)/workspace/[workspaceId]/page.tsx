@@ -40,6 +40,10 @@ export default function Home({ params }: WorkspacePage) {
       setFolders(JSON.stringify(product));
       socket.disconnect();
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (

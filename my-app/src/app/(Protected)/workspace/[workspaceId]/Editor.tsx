@@ -39,7 +39,7 @@ export default function NewEditor({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      webSocket.current = io("http://localhost:3456", {
+      webSocket.current = io(`${process.env.NEXT_PUBLIC_NOTESERVICE_URL}`, {
         auth: {
           token: session?.user?.email,
         },

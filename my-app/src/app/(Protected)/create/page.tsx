@@ -19,7 +19,10 @@ function createWorkspace(workspace: workspace, token: string) {
     },
     body: JSON.stringify(workspace),
   };
-  fetch(`${process.env.NEXT_PUBLIC_NOTESERVICE_URL}`, requestOptions)
+  fetch(
+    `${process.env.NEXT_PUBLIC_NOTESERVICE_URL}` + "/workspace",
+    requestOptions
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
