@@ -78,14 +78,14 @@ const CreateWorkspaceButton = () => {
 
 const WorkspaceExplorer = (workspace: any) => {
   let workspaces = [
-    {
-      title: "Research notes",
-      description: "This is the max amount of chars",
-      _id: "1",
-      shared: true,
-      owner: true,
-      time: "2 days ago",
-    },
+    // {
+    //   title: "Default note",
+    //   description: "this is how a workspace looks like",
+    //   _id: "1",
+    //   shared: true,
+    //   owner: true,
+    //   time: "... ago",
+    // },
   ];
 
   if (workspace.workspace.length > 0) {

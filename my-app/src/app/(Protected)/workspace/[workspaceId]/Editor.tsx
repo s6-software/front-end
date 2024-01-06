@@ -1,65 +1,61 @@
 "use client";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import io from "socket.io-client";
+import { useSession } from "next-auth/react";
 
 interface NewEditorProps {
   NoteName: string;
   NoteId: string;
+  WorkspaceId: string;
 }
-
-export default function NewEditor({ NoteName, NoteId }: NewEditorProps) {
-  const [editorData, setEditorData] = useState<OutputData | undefined>({
+const defaultBlocks = [
+  {
+    id: "cVj8kADSt-",
+    type: "header",
+    data: {
+      text: "Welcome",
+      level: 2,
+    },
+  },
+];
+export default function NewEditor({
+  NoteName,
+  NoteId,
+  WorkspaceId,
+}: NewEditorProps) {
+  const { data: session, status } = useSession();
+  const [editorData, setEditorData] = useState<OutputData>({
     time: 1701973129871,
-    blocks: [
-      {
-        id: "cVj8kADSt-",
-        type: "header",
-        data: {
-          text: "Welcome",
-          level: 2,
-        },
-      },
-      {
-        id: "QYre-c6_V4",
-        type: "paragraph",
-        data: {
-          text: "looks like this is your first note. try creating some text or adding images",
-        },
-      },
-      {
-        id: "JNWkPfAXJU",
-        type: "paragraph",
-        data: {
-          text: "or try making a todo list",
-        },
-      },
-      {
-        id: "cYrzbhjTk3",
-        type: "checklist",
-        data: {
-          items: [
-            {
-              text: "task 1",
-              checked: false,
-            },
-            {
-              text: "task 2",
-              checked: false,
-            },
-            {
-              text: "finished task 3",
-              checked: true,
-            },
-          ],
-        },
-      },
-    ],
+    blocks: [],
     version: "2.28.2",
   });
   const [noteTitle, setNoteTitle] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const ref = useRef<EditorJS>();
+  const webSocket = useRef<SocketIOClient.Socket>();
+
+  const [initialize, setInitialize] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      webSocket.current = io("http://localhost:3456", {
+        auth: {
+          token: session?.user?.email,
+        },
+      });
+      console.log("receiving data from", NoteId, editorData);
+      webSocket.current.emit("open-note", WorkspaceId, NoteId);
+      webSocket.current.on("opened-note", (product: OutputData) => {
+        setInitialize(false);
+        setEditorData(product);
+      });
+
+      return () => {
+        webSocket.current?.disconnect();
+      };
+    }
+  }, [NoteId]);
   const initializeEditor = async () => {
     const Header = (await import("@editorjs/header")).default;
     const Checklist = (await import("@editorjs/checklist")).default;
@@ -91,8 +87,14 @@ export default function NewEditor({ NoteName, NoteId }: NewEditorProps) {
             ref.current
               .save()
               .then((outputData) => {
-                // console.log(outputData)
-                // handleInputChange(JSON.stringify(outputData));
+                console.log(outputData);
+                setEditorData(outputData);
+                webSocket.current?.emit(
+                  "update-note",
+                  WorkspaceId,
+                  NoteId,
+                  outputData
+                );
               })
               .catch((error: any) => {
                 console.log("Saving failed: ", error);
@@ -104,6 +106,20 @@ export default function NewEditor({ NoteName, NoteId }: NewEditorProps) {
       ref.current = editor;
     }
   };
+  useEffect(() => {
+    if (typeof window !== "undefined" && ref.current) {
+      ref.current.isReady
+        .then(() => {
+          if (ref.current && !initialize) {
+            setInitialize(true);
+            ref.current.render(editorData);
+          }
+        })
+        .catch((error: any) => {
+          console.log("Editor.js is not ready yet", error);
+        });
+    }
+  }, [editorData]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -127,6 +143,7 @@ export default function NewEditor({ NoteName, NoteId }: NewEditorProps) {
   useEffect(() => {
     setNoteTitle(NoteName);
   }, [NoteName]);
+
   return (
     <>
       <input
