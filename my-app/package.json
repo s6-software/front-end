@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "start:ci": "npm run start & wait-on http://localhost:3000 && npm run test"
+    "test": "npx playwright test",
+    "start:ci": "start-server-and-test dev http://localhost:3000 test"
   },
   "dependencies": {
     "@editorjs/delimiter": "^1.4.0",
