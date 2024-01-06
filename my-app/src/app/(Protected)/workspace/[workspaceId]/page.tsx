@@ -30,7 +30,7 @@ export default function Home({ params }: WorkspacePage) {
 
   useEffect(() => {
     setSelectedNote(["", ""]);
-    const socket = io("http://localhost:3456", {
+    const socket = io(`${process.env.NEXT_PUBLIC_NOTESERVICE_URL}`, {
       auth: {
         token: session?.user?.email,
       },
