@@ -11,7 +11,7 @@ async function useAuthentication() {
 async function Layout({ children }: any) {
   const session = await getServerSession();
   if (session) {
-    redirect("/home");
+    redirect("/dashboard");
   }
   return <div>{children}</div>;
 }
