@@ -18,6 +18,16 @@ export default function Home() {
         >
           Start
         </button>
+
+        <div className="mt-8">
+          <h1 className="text-lg font-bold text-black">api endpoints</h1>
+          <h1 className="text-lg font-bold text-black">
+            {process.env.NEXT_PUBLIC_USERSERVICE_URL}
+          </h1>
+          <h1 className="text-lg font-bold text-black">
+            {process.env.NEXT_PUBLIC_NOTESERVICE_URL}
+          </h1>
+        </div>
       </div>
     </div>
   );
