@@ -34,12 +34,17 @@ export default function Home({ params }: WorkspacePage) {
       auth: {
         token: session?.user?.email,
       },
+      withCredentials: true,
     });
     socket.emit("join-workspace", workspaceId);
     socket.on("receive-notes", (product: ServerData) => {
       setFolders(JSON.stringify(product));
       socket.disconnect();
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (

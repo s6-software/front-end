@@ -14,13 +14,16 @@ function getWorkspaces(token: string, setWorkspaces: any) {
       Authorization: `Bearer ${token}`,
     },
   };
-  fetch("http://localhost:3456/workspace", requestOptions)
+  fetch(
+    `${process.env.NEXT_PUBLIC_NOTESERVICE_URL}` + "workspace",
+    requestOptions
+  )
     .then((response) => response.json())
     .then((data) => {
       setWorkspaces(data);
     })
     .catch((error) => {
-      signOut();
+      // signOut();
     });
 }
 
