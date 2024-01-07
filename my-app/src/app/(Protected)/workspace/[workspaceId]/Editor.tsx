@@ -36,7 +36,6 @@ export default function NewEditor({
   const webSocket = useRef<SocketIOClient.Socket>();
 
   const [initialize, setInitialize] = useState(false);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       webSocket.current = io(`${process.env.NEXT_PUBLIC_NOTESERVICE_URL}`, {
