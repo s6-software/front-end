@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(Protected)/workspace/[noteId]/Editor.js"
+    "src/app/(Protected)/workspace/[workspaceId]/Editor.js"
   ],
   "exclude": ["node_modules"]
 }

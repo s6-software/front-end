@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, createContext, useContext } from "react";
-const WorkspaceContext = createContext([]);
 
 const useLocalStorage = (key: string, initialValue: any) => {
   const [value, setValue] = useState(() => {
@@ -17,14 +16,6 @@ const useLocalStorage = (key: string, initialValue: any) => {
   return [value, setValue];
 };
 
-export const useCurrentSelectedNote = () => {
-  const [currentSelectedNote, setCurrentSelectedNote] = useLocalStorage(
-    "ActiveNote",
-    "none"
-  );
-  return [currentSelectedNote, setCurrentSelectedNote];
-};
-
 export const useCurrentWorkspace = () => {
   const [currentWorkspace, setCurrentWorkspace] = useLocalStorage(
     "ActiveWorkspace",
@@ -33,62 +24,78 @@ export const useCurrentWorkspace = () => {
   return [currentWorkspace, setCurrentWorkspace];
 };
 
-export const WorkspaceInstance = ({}) => {
-  const [currentWorkspace, setCurrentWorkspace] = useState("");
-  const [allWorkspaces, setAllWorkspaces] = useState([{}]);
-  const [currentSelectedNote, setCurrentSelectedNote] = useState();
-  const [allNotes, setAllNotes] = useState();
+import React from "react";
+type FoldersContextType = {
+  folders: any[];
+  setFolders: React.Dispatch<React.SetStateAction<any[]>>;
 
-  useEffect(() => {}, []);
-
-  const initWorkspace = (credentials: string) => {
-    // send request to server
-    const link = "https://jsonplaceholder.typicode.com/todos/1";
-    console.log(credentials);
-    fetch(link)
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-    // set all workspaces
-
-    setAllWorkspaces([
-      {
-        name: "Research notes",
-        description: "This is the max amount of chars",
-        id: "1",
-        shared: true,
-        owner: true,
-        time: "2 days ago",
-      },
-      {
-        name: "Research notes",
-        description: "This is the max amount of chars",
-        id: "2",
-        shared: false,
-        owner: false,
-        time: "1 days ago",
-      },
-      {
-        name: "Research notes",
-        description: "This is the max amount of chars",
-        id: "3",
-        shared: false,
-        owner: false,
-        time: "3 days ago",
-      },
-    ]);
-  };
-
-  // return <WorkspaceContext.Provider value={}}></WorkspaceContext.Provider>;
+  selectedNote: [string, string];
+  setSelectedNote: React.Dispatch<React.SetStateAction<[string, string]>>;
 };
 
-export const useWorkspaceInstance = () => {
-  const context = useContext(WorkspaceContext);
+const FoldersContext = createContext<FoldersContextType | undefined>(undefined);
+
+export const FoldersProvider = ({ children }: any) => {
+  const [folders, setFolders] = useState<any[]>([]);
+  const [selectedNote, setSelectedNote] = useState<[string, string]>(["", ""]);
+
+  useEffect(() => {
+    const storedFolders = localStorage.getItem("Folders");
+    const storedSelectedNote = localStorage.getItem("ActiveNote");
+    if (storedFolders) {
+      setFolders(JSON.parse(storedFolders));
+    }
+    if (storedSelectedNote) {
+      setSelectedNote(JSON.parse(storedSelectedNote));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (folders.length > 0) {
+      localStorage.setItem("Folders", JSON.stringify(folders));
+    }
+  }, [folders]);
+
+  useEffect(() => {
+    if (selectedNote.length > 0) {
+      localStorage.setItem("ActiveNote", JSON.stringify(selectedNote));
+    }
+  }, [selectedNote]);
+  return (
+    <FoldersContext.Provider
+      value={{
+        folders,
+        setFolders,
+
+        selectedNote,
+        setSelectedNote,
+      }}
+    >
+      {children}
+    </FoldersContext.Provider>
+  );
+};
+
+export const useFolders = (): [
+  any,
+  React.Dispatch<React.SetStateAction<any>>
+] => {
+  const context = useContext(FoldersContext);
 
   if (!context) {
-    throw new Error(
-      "useWorkspaceInstance must be used within a WorkspaceInstance"
-    );
+    throw new Error("useFolders must be used within a FoldersProvider");
   }
+  return [context.folders, context.setFolders];
+};
 
-  return context;
+export const useSelectedNote = (): [
+  [string, string],
+  React.Dispatch<React.SetStateAction<[string, string]>>
+] => {
+  const context = useContext(FoldersContext);
+
+  if (!context) {
+    throw new Error("useSelectedNote must be used within a FoldersProvider");
+  }
+  return [context.selectedNote, context.setSelectedNote];
 };

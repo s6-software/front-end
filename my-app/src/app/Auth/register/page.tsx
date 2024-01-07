@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function give_password_strength_score(password: string, setPassword: any) {
   setPassword(password);
@@ -47,18 +48,39 @@ function give_password_strength_score(password: string, setPassword: any) {
 }
 
 export default function Page() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordScores, setPasswordScores] = useState([0, 0, 0, 0, 0, 0]);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    signIn("credentials", {
-      username: username,
+    const body = {
+      email: email,
       password: password,
-      callbackUrl: "/home",
-    });
+      name: name,
+    };
+    console.log(body);
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_USERSERVICE_URL + "/api/User/register",
+      {
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    );
+    console.log(res);
+    if (res.ok) {
+      router.push("/Auth/login");
+    } else {
+      console.log("An error occurred");
+      router.refresh();
+    }
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +130,7 @@ export default function Page() {
           >
             <div id="displayname-input">
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Displayname
@@ -118,7 +140,10 @@ export default function Page() {
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="john doe"
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   minLength={5}
+                  id="nameInput"
                   required
                 />
               </div>
@@ -136,7 +161,10 @@ export default function Page() {
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="example@gmail.com"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
+                  id="emailInput"
                 />
               </div>
             </div>
@@ -154,7 +182,9 @@ export default function Page() {
                   placeholder="********"
                   type="password"
                   onChange={handlePasswordChange}
+                  value={password}
                   required
+                  id="passwordInput"
                 />
               </div>
 
@@ -192,6 +222,7 @@ export default function Page() {
                   type="password"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
+                  id="passwordConfirmationInput"
                 />
               </div>
               {confirmPassword.length > 0 && !passwordsMatch && (
@@ -203,6 +234,7 @@ export default function Page() {
               <button
                 type="submit"
                 disabled={!submitAvailable}
+                id="submitInput"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Register
