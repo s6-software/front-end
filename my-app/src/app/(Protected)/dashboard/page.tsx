@@ -15,7 +15,7 @@ function getWorkspaces(token: string, setWorkspaces: any) {
     },
   };
   fetch(
-    `${process.env.NEXT_PUBLIC_NOTESERVICE_URL}` + "/workspace",
+    `${process.env.NEXT_PUBLIC_NOTESERVICE_URL}` + "workspace",
     requestOptions
   )
     .then((response) => response.json())
