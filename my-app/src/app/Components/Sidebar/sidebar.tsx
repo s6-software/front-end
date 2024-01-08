@@ -91,7 +91,7 @@ const ProfileItem = ({ text, setOpen, open }: ProfileItemProps) => {
 const SearchItem = ({}) => {
   return (
     <Link
-      href={"/home"}
+      href={"/dashboard"}
       className="flex pt-2 pb-2 ml-2 mr-2 mt-1 rounded-md justify-start col-span-2 hover:bg-gray-300 transition-all ease-in-out delay-50 cursor-pointer"
     >
       <MagnifyingGlassIcon className="ml-2 h-6 w-6" />
