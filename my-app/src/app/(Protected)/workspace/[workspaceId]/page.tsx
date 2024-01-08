@@ -34,6 +34,7 @@ export default function Home({ params }: WorkspacePage) {
       auth: {
         token: session?.user?.email,
       },
+      // path: "/note-service/socket.io",
     });
     socket.emit("join-workspace", workspaceId);
     socket.on("receive-notes", (product: ServerData) => {

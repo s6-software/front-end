@@ -14,7 +14,7 @@ export default function Page() {
     signIn("credentials", {
       email: email,
       password: password,
-      callbackUrl: "/home",
+      callbackUrl: "/dashboard",
     });
   };
   return (
